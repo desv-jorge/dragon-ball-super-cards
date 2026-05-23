@@ -8,7 +8,7 @@ let scores = { p1: 0, p2: 0, total: 0 };
 
 // ===== API CONFIG =====
 const API_BASE = "https://dragonball-api.com/api/characters/";
-const MAX_CHARACTERS = 58;
+const MAX_CHARACTERS = 78;
 
 // ===== INIT =====
 document.addEventListener("DOMContentLoaded", () => {
@@ -73,11 +73,9 @@ async function generateCharacter(player) {
     // Update UI
     updateCardUI(player, state);
   } catch (err) {
-    console.error("Erro ao buscar personagem:", err);
-    loader.classList.remove("active");
-    btn.classList.remove("hidden");
-    alert("Erro ao invocar guerreiro! Tente novamente. 🐉");
-    return;
+    console.warn(`Personagem ${number} não encontrado (buraco na API). Buscando outro...`);
+    // Em vez de falhar, tenta novamente de forma recursiva (Retry Automático)
+    return generateCharacter(player);
   }
 
   // Hide loading
